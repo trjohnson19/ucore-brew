@@ -31,7 +31,7 @@ dnf5 -y copr enable ublue-os/packages
 # Install Homebrew
 dnf5 -y install ublue-brew
 # Ensure appropriate permissions for Homebrew
-chown -R core "/var/home/linuxbrew/*"
+chown -R core "$(brew --prefix)/*"
 # Disable COPRs so they don't end up enabled on the final image:
 dnf5 -y copr disable ublue-os/packages
 
