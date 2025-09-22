@@ -10,7 +10,7 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y tmux 
+# dnf5 install -y tmux
 
 # Use a COPR Example:
 #
@@ -21,4 +21,21 @@ dnf5 install -y tmux
 
 #### Example for enabling a System Unit File
 
-systemctl enable podman.socket
+# systemctl enable podman.socket
+
+#### Make `ucore-brew` package additions
+
+# Add Homebrew to `ucore`
+# Add Packages repo
+dnf5 -y copr enable ublue-os/packages
+# Install Homebrew
+dnf5 -y install ublue-brew
+# Disable COPRs so they don't end up enabled on the final image:
+dnf5 -y copr disable ublue-os/packages
+
+#### Make `ucore-brew` Systemd modifications (using example from Bluefin)
+#### https://github.com/ublue-os/bluefin/blob/5d0b3e67601f87fd3435f39c79d0582a299e566a/build_files/base/17-cleanup.sh#L18-L20
+
+systemctl enable brew-setup.service
+systemctl enable brew-upgrade.timer
+systemctl enable brew-update.timer
